@@ -14,11 +14,7 @@ public class CategoryService {
 
 	public boolean insertCategory(CategoryVo categoryVo) {
 		
-		
 		return categoryDao.insert(categoryVo);
 	}
-	
-	
-	
 	
 }

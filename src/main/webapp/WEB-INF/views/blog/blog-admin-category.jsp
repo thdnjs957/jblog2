@@ -36,7 +36,6 @@
 				error:function(xhr,error){
 					
 				},
-			
 			});
 			console.log(name);
 		});
