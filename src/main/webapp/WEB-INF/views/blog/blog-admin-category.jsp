@@ -11,6 +11,8 @@
 <script src = "${pageContext.servletContext.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script>
 
+	/* 
+		일단 redirect로 하고 ajax로 수정
 	$(function(){ 
 
 		$('#add_category').click(function(){
@@ -26,7 +28,9 @@
 				url:"${pageContext.request.contextPath}/${authUser.id}/admin/category",
 				type:"post",
 				dataType:"json",
-				data:"",
+				data:"
+				
+						",
 				success:function(response){
 					if(response.result != "success"){
 						console.error(response.message);
@@ -40,7 +44,7 @@
 			console.log(name);
 		});
 		
-	});
+	}); */
 </script>
 </head>
 <body>
@@ -50,42 +54,32 @@
 			<div id="content" class="full-screen">
 				<c:import url="/WEB-INF/views/blog/includes/admin-menu.jsp"/>
 		      	<table class="admin-cat">
-		      		<tr>
-		      			<th>번호</th>
-		      			<th>카테고리명</th>
-		      			<th>포스트 수</th>
-		      			<th>설명</th>
-		      			<th>삭제</th>      			
-		      		</tr>
-					<tr>
-						<td>3</td>
-						<td>미분류</td>
-						<td>10</td>
-						<td>카테고리를 지정하지 않은 경우</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>  
-					<tr>
-						<td>2</td>
-						<td>스프링 스터디</td>
-						<td>20</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>스프링 프로젝트</td>
-						<td>15</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>					  
+		      		
+		      		<c:set var ='count' value ='${fn:length(categoryList) }' />
+		      		
+			      	<c:forEach items = '${categoryList }' var = 'vo' varStatus = 'status'>
+			      		<tr>
+			      			<th>번호</th>
+			      			<th>카테고리명</th>
+			      			<th>포스트 수</th>
+			      			<th>설명</th>
+			      			<th>삭제</th>      			
+			      		</tr>
+						<tr>
+							<td>${status.index+1 }</td>
+							<td>${vo.name }</td>
+							<td></td>
+							<td>${vo.description }</td>
+							<td><a href=""><img src="${pageContext.request.contextPath}/assets/images/delete.jpg" ></a></td>
+						</tr>  
+					</c:forEach>			  
 				</table>
       	
       			<h4 class="n-c">새로운 카테고리 추가</h4>
-      			<form name="addCategory" id="addCategory" method="post">
-      				<input type="hidden" name ="blog_id" value="${authUser.id }"/>
+      			<form name="addCategory" id="addCategory" action="${pageContext.request.contextPath}/${blogVo.id}/admin/category" method="post" >
+      				<input type="hidden" name ="blogId" value="${blogVo.id }"/>
 			      	<table id="admin-cat-add">
 			      		<tr>
-			      			
 			      			<td class="t">카테고리명</td>
 			      			<td><input type="text" id = "name" name="name"/></td>
 			      		</tr>
@@ -95,8 +89,8 @@
 			      		</tr>
 			      		<tr>
 			      			<td class="s">&nbsp;</td>
-			      			<td><input type="button" id ="add_category" value="카테고리 추가"/></td>
-			      		</tr>     
+			      			<td><input type="submit" id ="add_category" value="카테고리 추가"/></td>
+			      		</tr>   
 		      		</table>
 		      	</form> 
 			</div>

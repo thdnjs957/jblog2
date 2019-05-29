@@ -4,10 +4,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div id="header">
-	<h1>Spring 이야기</h1>
+	<h1><a href="${pageContext.request.contextPath}/${blogVo.id}">${blogVo.title }</a></h1>
 	<ul>
 		<li><a href="${pageContext.request.contextPath}/user/login">로그인</a></li>
 		<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li>
-		<li><a href="">블로그 관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/${blogVo.id}/admin/basic">블로그 관리</a></li>
 	</ul>
 </div>

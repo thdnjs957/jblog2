@@ -3,17 +3,22 @@
 
 <mapper namespace="category">
 
-	<select id="getList" parameterType="string"  resultType="categoryvo">
-		<![CDATA[
-			select no,name,description,reg_date,blog_id as blogId from category where blog_id= #{value}	
+	<select id="getList" parameterType="string"  resultType="categoryvo"> <!-- as blogId -->
+		<![CDATA[ 
+			select no,name,description from category where blog_id= #{value}	
 		]]>
 	</select>
 	
 	<insert id="insert" parameterType="categoryvo">
 		<![CDATA[
-			insert into category(no,name,description,reg_date,blog_id) 
-			values(null,#{name},#{description},now(),#{blog_id})		
+			insert into category(no,name,description,reg_date,blog_id) values(null,#{name},#{description},now(),#{blogId})		
 		]]>
 	</insert>
-
+	
+	<insert id="insertDefault" parameterType="string">
+		<![CDATA[
+			insert into category(no,name,description,reg_date,blog_id) values(null,'default','카테고리를 지정하지 않은 경우',now(),#{value}) 		
+		]]>
+	</insert>
+	
 </mapper>

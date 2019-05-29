@@ -24,4 +24,9 @@ public class PostDao {
 		return result;
 	}
 
+	public boolean insert(PostVo postVo) {
+		int count = sqlSession.insert("post.insert",postVo);
+		return 1 == count;
+	}
+
 }

@@ -10,6 +10,7 @@
 <Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
 </head>
 <body>
+	<h1>블로그 id는 ${blogVo.id }</h1>
 	<div id="container">
 		
 		<c:import url="/WEB-INF/views/blog/includes/header.jsp"/>
@@ -19,7 +20,8 @@
 			
 				<c:import url="/WEB-INF/views/blog/includes/admin-menu.jsp"/>
 				
-				<form action="" method="post">
+				<form action="${pageContext.request.contextPath}/${blogVo.id}/admin/basic" method="post" enctype="multipart/form-data">
+	 		      	
 	 		      	<table class="admin-config">
 			      		<tr>
 			      			<td class="t">블로그 제목</td>

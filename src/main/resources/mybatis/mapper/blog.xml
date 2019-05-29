@@ -9,4 +9,10 @@
 		]]>
 	</select>
 
+	<update id="update" parameterType="blogvo">
+             <![CDATA[
+                    UPDATE blog SET title=#{title}, logo=#{logo} WHERE id = #{id}
+             ]]>
+       </update>
+
 </mapper>

@@ -16,17 +16,23 @@ public class CategoryDao {
 
 	public List<CategoryVo> getList(String id) {
 		
-		List<CategoryVo> result = sqlSession.selectList("category.getList");
+		List<CategoryVo> result = sqlSession.selectList("category.getList",id);
 		return result;
 		
 	}
 
 	public boolean insert(CategoryVo categoryVo) {
 		
-		int count = sqlSession.insert("category.insert");
+		int count = sqlSession.insert("category.insert",categoryVo);
 		return 1 == count;
 		
 	}
+
+	public boolean insertDefault(String id) {
+		int countCategory = sqlSession.insert("category.insertDefault",id);
+		return false;
+	}
+	
 	
 
 }

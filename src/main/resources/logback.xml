@@ -39,7 +39,7 @@
     </logger>
     
    <!-- 루트(글로벌) 로거 -->
-   <root level="info"><!-- debug -->
+   <root level="error"><!-- debug -->
       <appender-ref ref="consoleAppender" />
    </root>
 

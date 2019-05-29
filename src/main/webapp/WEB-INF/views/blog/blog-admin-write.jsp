@@ -17,15 +17,17 @@
 			
 				<c:import url="/WEB-INF/views/blog/includes/admin-menu.jsp"/>
 				
-				<form action="" method="post">
+				<form action="${pageContext.request.contextPath}/${blogVo.id}/admin/write" method="post">
 			      	<table class="admin-cat-write">
 			      		<tr>
 			      			<td class="t">제목</td>
 			      			<td>
 			      				<input type="text" size="60" name="title">
 				      			<select name="category">
-				      				<option>미분류</option>
-				      				<option>자바</option>
+				      				<option selected>미분류</option><!-- join 할때 defalut 들어가게  -->
+				      				<c:forEach items = '${categoryList }' var = 'vo'>
+					      				<option value="${vo.no }">${vo.name }</option><!-- value 는 서버에 전송될 값 -->
+				      				</c:forEach>
 				      			</select>
 				      		</td>
 			      		</tr>
