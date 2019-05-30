@@ -5,7 +5,6 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.jblog.vo.BlogVo;
 import com.cafe24.jblog.vo.PostVo;
@@ -33,5 +32,7 @@ public class BlogDao {
 		int count = sqlSession.update("blog.update",blogVo);
 		return 1==count;
 	}
+
+	
 
 }

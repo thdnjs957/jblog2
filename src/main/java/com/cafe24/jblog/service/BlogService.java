@@ -35,28 +35,45 @@ public class BlogService {
 	private static final String SAVE_PATH = "/jblog-uploads";
 	private static final String URL = "/images";
 	
-	public Map<String,Object> getAll(String id, Optional<Long> pathNo1, Optional<Long> pathNo2) {
-		
-		Map<String, Object> map = new HashMap<String,Object>();
+	public Map<String,Object> getAll(String id, Long categoryNo, Long postNo) {
 		
 		BlogVo blogVo = blogDao.get(id);
 		
-		if(pathNo1.isPresent() && pathNo2.isPresent() ) {
-			//categoryNo = pathNo1 and no = pathNo2
-		}else if(pathNo1.isPresent() && !pathNo2.isPresent()) {
-			//categoryNo = pathNo1 이고 그냥 첫번째글 가져왹?
+		Map<String, Object> mapAll = new HashMap<String,Object>();
+		
+		List<CategoryVo> categoryList = categoryDao.getList(id);
+		
+		List<PostVo> postList = postDao.getListDefault(); //그냥 default 에 있는 거 다 가져오기 
+		
+		PostVo postVo = postDao.getCategoryPostDefault(id);//default 글의 첫글
+		
+		System.out.println("default 글의 첫글"+postVo.getTitle());
+		
+		if(categoryNo != 0L && postNo != 0L ) {
+			
+			Map<String, Object> map = new HashMap<String,Object>();
+			
+			map.put("categoryNo", categoryNo);
+			map.put("no", postNo);
+			map.put("blogId", id);
+			
+			postVo = postDao.getCategoryPost(map);
+			
+			System.out.println("카테고리에 해당하는 글"+postVo.getTitle());
+			
+		}else if(categoryNo != 0L && postNo == 0L) {
+			
+			postDao.getList(categoryNo);
+			postList = postDao.getList(categoryNo);
 			
 		}
 		
-		//카테고리 리스트 : id에 해당하는  category 다 가져오기
-		List<CategoryVo> categoryList = categoryDao.getList(id);
+		mapAll.put("blogVo",blogVo);
+		mapAll.put("categoryList", categoryList);
+		mapAll.put("postList", postList);
+		mapAll.put("postVo",postVo);
 		
-		map.put("blogVo",blogVo);
-		map.put("categoryList", categoryList);
-		//map.put("postList", postList);
-		//map.put("postVo",postVo);
-		
-		return map;
+		return mapAll;
 	}
 
 	public String restore(MultipartFile multipartFile) {
@@ -120,6 +137,21 @@ public class BlogService {
 
 		return blogDao.get(id);
 	}
+	
+	
+	public boolean insertCategory(CategoryVo categoryVo) {
+		
+		return categoryDao.insert(categoryVo);
+	}
+
+	public List<CategoryVo> getList(String id) {
+		return categoryDao.getList(id);
+	}
 
 	
+	public boolean insertPost(PostVo postVo) {
+		return postDao.insert(postVo);
+	}
+
+
 }

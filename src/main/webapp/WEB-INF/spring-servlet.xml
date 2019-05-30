@@ -40,8 +40,8 @@
 	<mvc:default-servlet-handler />
 
 	<!-- the mvc resources url mapping -->
-	<mvc:resources mapping="/images/**"
-		location="file:/mysite-uploads/" />
+	<mvc:resources mapping="/assets/images/**"
+		location="file:/jblog-uploads/" />
 
 	<!-- viewResolver 설정 -->
 	<bean id="viewResolve"

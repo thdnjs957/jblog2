@@ -10,9 +10,16 @@
 	</select>
 
 	<update id="update" parameterType="blogvo">
-             <![CDATA[
-                    UPDATE blog SET title=#{title}, logo=#{logo} WHERE id = #{id}
-             ]]>
-       </update>
+         <![CDATA[
+                UPDATE blog SET title=#{title}, logo=#{logo} WHERE id = #{id}
+         ]]>
+    </update>
+    
+    <insert id="insert" parameterType="string">
+    	<![CDATA[
+    		insert into blog (id) values (#{value})
+    	]]>
+    </insert>
+       
 
 </mapper>

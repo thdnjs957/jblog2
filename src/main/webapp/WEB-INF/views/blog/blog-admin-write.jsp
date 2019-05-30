@@ -24,7 +24,6 @@
 			      			<td>
 			      				<input type="text" size="60" name="title">
 				      			<select name="category">
-				      				<option selected>미분류</option><!-- join 할때 defalut 들어가게  -->
 				      				<c:forEach items = '${categoryList }' var = 'vo'>
 					      				<option value="${vo.no }">${vo.name }</option><!-- value 는 서버에 전송될 값 -->
 				      				</c:forEach>
