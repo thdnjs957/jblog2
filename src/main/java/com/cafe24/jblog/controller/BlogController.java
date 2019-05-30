@@ -69,7 +69,7 @@ public class BlogController {
 	@RequestMapping("/admin/basic")
 	public String adminBasic(@PathVariable String id,@AuthUser UserVo authUser, Model model) {
 		
-		if(authUser.getId() != id) {
+		if(!id.equals(authUser.getId())) {
 			return "redirect:/";
 		}
 		
@@ -89,9 +89,10 @@ public class BlogController {
 				@RequestParam(value="logo-file") MultipartFile logoFile,
 				Model model ) {
 		
-		if(authUser.getId() != blogVo.getId()) {
+		if(!id.equals(authUser.getId())) {
 			return "redirect:/";
 		}
+		
 		
 		String logo = blogService.restore(logoFile);
 
@@ -111,7 +112,7 @@ public class BlogController {
 		
 		BlogVo blogVo = blogService.getById(id);
 		
-		if(authUser.getId() != id) {
+		if(!id.equals(authUser.getId())) {
 			return "redirect:/";
 		}
 		
@@ -128,9 +129,10 @@ public class BlogController {
 	@RequestMapping(value = "/admin/category", method=RequestMethod.POST)
 	public String adminCategory(@ModelAttribute CategoryVo categoryVo,@PathVariable String id,@AuthUser UserVo authUser) {
 		
-		if(authUser.getId() != id) {
+		if(!id.equals(authUser.getId())) {
 			return "redirect:/";
 		}
+		
 		
 		boolean result = blogService.insertCategory(categoryVo);
 		
@@ -143,7 +145,7 @@ public class BlogController {
 	@RequestMapping("/admin/write")
 	public String adminWrite(@PathVariable String id,Model model,@AuthUser UserVo authUser) {
 		
-		if(authUser.getId() != id) {
+		if(!id.equals(authUser.getId())) {
 			return "redirect:/";
 		}
 		
@@ -158,7 +160,7 @@ public class BlogController {
 	@RequestMapping(value="/admin/write",method=RequestMethod.POST)
 	public String adminWrite(@PathVariable String id,Model model,@ModelAttribute PostVo postVo,@RequestParam(value="category") Long no,@AuthUser UserVo authUser) {
 		
-		if(authUser.getId() != id) {
+		if(!id.equals(authUser.getId())) {
 			return "redirect:/";
 		}
 		
