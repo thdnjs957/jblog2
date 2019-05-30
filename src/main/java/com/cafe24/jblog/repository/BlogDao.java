@@ -33,6 +33,5 @@ public class BlogDao {
 		return 1==count;
 	}
 
-	
 
 }

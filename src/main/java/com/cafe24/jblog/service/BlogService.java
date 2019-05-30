@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,11 +42,9 @@ public class BlogService {
 		
 		List<CategoryVo> categoryList = categoryDao.getList(id);
 		
-		List<PostVo> postList = postDao.getListDefault(); //그냥 default 에 있는 거 다 가져오기 
+		List<PostVo> postList = postDao.getListDefault(id); 
 		
-		PostVo postVo = postDao.getCategoryPostDefault(id);//default 글의 첫글
-		
-		System.out.println("default 글의 첫글"+postVo.getTitle());
+		PostVo postVo = postDao.getCategoryPostDefault(id);
 		
 		if(categoryNo != 0L && postNo != 0L ) {
 			
@@ -57,14 +54,18 @@ public class BlogService {
 			map.put("no", postNo);
 			map.put("blogId", id);
 			
+			postList = postDao.getList(map); 
 			postVo = postDao.getCategoryPost(map);
 			
-			System.out.println("카테고리에 해당하는 글"+postVo.getTitle());
-			
 		}else if(categoryNo != 0L && postNo == 0L) {
+			//카테고리만 클릭했을 경우 
+			Map<String, Object> map = new HashMap<String,Object>();
 			
-			postDao.getList(categoryNo);
-			postList = postDao.getList(categoryNo);
+			map.put("categoryNo", categoryNo);
+			map.put("blogId", id);
+			
+			postList = postDao.getList(map);
+			postVo = postDao.getCategoryPostFirst(map); 
 			
 		}
 		

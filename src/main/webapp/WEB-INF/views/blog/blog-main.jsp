@@ -15,17 +15,31 @@
 		<div id="wrapper">
 			<div id="content">
 				<div class="blog-content">
-				
-					<h4>${postVo.title }</h4>
-					<p>
-						${postVo.content }
-					<p>
-					
+					<c:choose>
+						<c:when test="${postVo eq null }">
+								<h4>작성된 포스트가 없습니다</h4>
+								<p></p>
+							</c:when>
+							<c:otherwise>
+								<h4>${postVo.title }</h4>
+								<p>
+									${postVo.content }
+								<p>
+							</c:otherwise>
+					</c:choose>
 				</div>
 				<ul class="blog-list">
-					<c:forEach items = '${postList }' var = 'vo'>
-						<li><a href="${pageContext.request.contextPath}/${blogVo.id}/${vo.categoryNo}/${vo.no}">${vo.title }</a> <span>${vo.regDate }</span>	</li>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${postList eq null }">
+							<li>작성된 포스트가 없습니다.</li>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items = '${postList }' var = 'vo'>
+								<li><a href="${pageContext.request.contextPath}/${blogVo.id}/${vo.categoryNo}/${vo.no}">${vo.title }</a> <span>${vo.regDate }</span>	</li>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+					
 				</ul>
 			</div>
 		</div>

@@ -3,40 +3,62 @@
 
 <mapper namespace="post">
 
-	<select id="getList" parameterType="long" resultType="postvo">
+	<select id="getList" parameterType="map" resultType="postvo"><!-- category만 들어왔을경우 blog id 같고 categoy_no같으면 다  -->
 		<![CDATA[
-			select no,title,content,reg_date as regDate,category_no as categoryNo from post where category_no = #{value}	
+			SELECT p.no,p.title,p.content,p.reg_date as regDate,p.category_no as categoryNo 
+				FROM post p,category c 
+				WHERE c.no = p.category_no and category_no = #{categoryNo} and c.blog_id = #{blogId} 	
 		]]>
 	</select>
 	
-	<select id="getListDefault" resultType="postvo">
+	<select id="getListDefault" parameterType = "string" resultType="postvo">
 		<![CDATA[
-			select p.no,p.title,p.content,p.reg_date as regDate,category_no as categoryNo from post p,category c where c.no = p.category_no and c.name = 'default';
+			SELECT p.no,p.title,p.content,p.reg_date as regDate,category_no as categoryNo 
+				FROM post p,category c 
+				WHERE c.no = p.category_no and c.name = 'default' and c.blog_id = #{value};
 		]]>
 	</select>
 	
 	<select id="getByNo" parameterType="long" resultType="postvo">
 		<![CDATA[
-			select no,title,content,reg_date as regDate,category_no as categoryNo from post where no = #{value}
+			SELECT no,title,content,reg_date as regDate,category_no as categoryNo 
+				FROM post 
+				WHERE no = #{value}
 		]]>
 	</select>
 	
 	<insert id = "insert" parameterType="postVo">
 		<![CDATA[
-			insert into post(no,title,content,reg_date,category_no) values(null,#{title},#{content},now(),#{categoryNo});  
+			INSERT INTO post(no,title,content,reg_date,category_no) VALUES(null,#{title},#{content},now(),#{categoryNo});  
 		]]>
 	</insert>
 	
 	<select id="getCategoryPost" parameterType="map" resultType="postvo">
 		<![CDATA[
-			select p.no,p.title,p.content,p.reg_date as regDate,p.category_no as categoryNo from post p,category c where category_no = #{categoryNo} and p.no = #{no} and c.blog_id = #{blogId}
+			SELECT p.no,p.title,p.content,p.reg_date as regDate,p.category_no as categoryNo 
+				FROM post p,category c 
+				WHERE category_no = #{categoryNo} and p.no = #{no} and c.blog_id = #{blogId} LIMIT 1;
 		]]>
 	</select>
 	
-	<select id="getCategoryPostDefault" parameterType="string" resultType="postvo">
+	<select id="getCategoryPostFirst" parameterType="map" resultType="postvo">
 		<![CDATA[
-			select p.no,p.title,p.content,p.reg_date as regDate,category_no as categoryNo from post p,category c where c.no = p.category_no and c.name = 'default' and c.blog_id = #{value} LIMIT 0,1;
+			SELECT p.no,p.title,p.content,p.reg_date as regDate,category_no as categoryNo 
+				FROM post p,category c 
+				WHERE c.no = p.category_no and p.category_no = #{categoryNo} and c.blog_id = #{blogId} LIMIT 1;
 		]]>
 	</select>
+	
+	
+	<select id="getCategoryPostDefault" parameterType="string" resultType="postvo">
+		<![CDATA[
+			SELECT p.no,p.title,p.content,p.reg_date as regDate,category_no as categoryNo 
+				FROM post p,category c 
+				WHERE c.no = p.category_no and c.name = 'default' and c.blog_id = #{value} LIMIT 1;
+		]]>
+	</select>
+	
+	
+	
 
 </mapper>

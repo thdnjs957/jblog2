@@ -18,7 +18,10 @@ import com.cafe24.jblog.service.BlogService;
 import com.cafe24.jblog.vo.BlogVo;
 import com.cafe24.jblog.vo.CategoryVo;
 import com.cafe24.jblog.vo.PostVo;
+import com.cafe24.jblog.vo.UserVo;
 import com.cafe24.security.Auth;
+import com.cafe24.security.AuthUser;
+
 
 @Controller
 @RequestMapping("/{id:(?!assets).*}" )
@@ -26,6 +29,7 @@ public class BlogController {
 	
 	@Autowired
 	BlogService blogService;
+	
 	
 	
 	@RequestMapping({"","/{pathNo1}","/{pathNo1}/{pathNo2}"})
@@ -50,6 +54,7 @@ public class BlogController {
 		
 		List<CategoryVo> categoryList = (List<CategoryVo>)map.get("categoryList");
 		List<PostVo> postList = (List<PostVo>)map.get("postList");
+		
 		PostVo postVo = (PostVo) map.get("postVo");
 		
 		model.addAttribute("blogVo",blogVo);
@@ -62,7 +67,12 @@ public class BlogController {
 	
 	@Auth
 	@RequestMapping("/admin/basic")
-	public String adminBasic(@PathVariable String id, Model model) {
+	public String adminBasic(@PathVariable String id,@AuthUser UserVo authUser, Model model) {
+		
+		if(authUser.getId() != id) {
+			return "redirect:/";
+		}
+		
 		
 		BlogVo blogVo = blogService.getById(id);
 		
@@ -74,10 +84,14 @@ public class BlogController {
 	@Auth
 	@RequestMapping(value = "/admin/basic",method=RequestMethod.POST)
 	public String adminBasic(
-				@PathVariable String id,
+				@PathVariable String id, @AuthUser UserVo authUser,
 				@ModelAttribute BlogVo blogVo,
 				@RequestParam(value="logo-file") MultipartFile logoFile,
 				Model model ) {
+		
+		if(authUser.getId() != blogVo.getId()) {
+			return "redirect:/";
+		}
 		
 		String logo = blogService.restore(logoFile);
 
@@ -93,9 +107,13 @@ public class BlogController {
 	
 	@Auth
 	@RequestMapping("/admin/category")
-	public String adminCategory(@PathVariable String id,Model model) {
+	public String adminCategory(@PathVariable String id,Model model,@AuthUser UserVo authUser) {
 		
 		BlogVo blogVo = blogService.getById(id);
+		
+		if(authUser.getId() != id) {
+			return "redirect:/";
+		}
 		
 		//카테고리 리스트 보여주기
 		List<CategoryVo> categoryList = blogService.getList(id);
@@ -108,16 +126,26 @@ public class BlogController {
 	
 	@Auth
 	@RequestMapping(value = "/admin/category", method=RequestMethod.POST)
-	public String adminCategory(@ModelAttribute CategoryVo categoryVo,@PathVariable String id) {
+	public String adminCategory(@ModelAttribute CategoryVo categoryVo,@PathVariable String id,@AuthUser UserVo authUser) {
+		
+		if(authUser.getId() != id) {
+			return "redirect:/";
+		}
 		
 		boolean result = blogService.insertCategory(categoryVo);
+		
+		
 		
 		return "redirect:/"+id+"/admin/category";
 	}
 	
 	@Auth
 	@RequestMapping("/admin/write")
-	public String adminWrite(@PathVariable String id,Model model) {
+	public String adminWrite(@PathVariable String id,Model model,@AuthUser UserVo authUser) {
+		
+		if(authUser.getId() != id) {
+			return "redirect:/";
+		}
 		
 		BlogVo blogVo = blogService.getById(id);
 		List<CategoryVo> categoryList = blogService.getList(id);
@@ -128,7 +156,12 @@ public class BlogController {
 	
 	@Auth
 	@RequestMapping(value="/admin/write",method=RequestMethod.POST)
-	public String adminWrite(@PathVariable String id,Model model,@ModelAttribute PostVo postVo,@RequestParam(value="category") Long no) {
+	public String adminWrite(@PathVariable String id,Model model,@ModelAttribute PostVo postVo,@RequestParam(value="category") Long no,@AuthUser UserVo authUser) {
+		
+		if(authUser.getId() != id) {
+			return "redirect:/";
+		}
+		
 		//no = category_no
 		postVo.setCategoryNo(no);
 		

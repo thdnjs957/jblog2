@@ -34,6 +34,12 @@
 			</bean>
 		</mvc:message-converters>
 
+		<!-- Argument Resolvers -->
+		<mvc:argument-resolvers>
+			<bean
+				class="com.cafe24.security.AuthUserHandlerMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+
 	</mvc:annotation-driven>
 
 	<!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 --> <!-- 찾다 찾다 없으면 기본 서블릿이 url 찾음 -->
