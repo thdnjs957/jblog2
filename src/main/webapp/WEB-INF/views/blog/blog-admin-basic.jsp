@@ -10,7 +10,7 @@
 <Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
 </head>
 <body>
-	<h1>블로그 id는 ${blogVo.id }</h1>
+	
 	<div id="container">
 		
 		<c:import url="/WEB-INF/views/blog/includes/header.jsp"/>

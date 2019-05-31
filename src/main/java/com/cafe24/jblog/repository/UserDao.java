@@ -33,5 +33,13 @@ public class UserDao {
 		
 	}
 	
+	public UserVo get(String id) {
+		
+		UserVo result = sqlSession.selectOne("user.getById",id);
+		
+		return result;
+	}
+	
+	
 	
 }

@@ -145,6 +145,10 @@ public class BlogService {
 		return categoryDao.insert(categoryVo);
 	}
 
+	public boolean deleteCategory(CategoryVo categoryVo) {
+		return categoryDao.delete(categoryVo);
+	}
+
 	public List<CategoryVo> getList(String id) {
 		return categoryDao.getList(id);
 	}
@@ -154,5 +158,5 @@ public class BlogService {
 		return postDao.insert(postVo);
 	}
 
-
+	
 }

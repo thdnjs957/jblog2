@@ -3,7 +3,7 @@
 
 <mapper namespace="post">
 
-	<select id="getList" parameterType="map" resultType="postvo"><!-- category만 들어왔을경우 blog id 같고 categoy_no같으면 다  -->
+	<select id="getList" parameterType="map" resultType="postvo">
 		<![CDATA[
 			SELECT p.no,p.title,p.content,p.reg_date as regDate,p.category_no as categoryNo 
 				FROM post p,category c 

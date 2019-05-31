@@ -68,9 +68,9 @@
 						<tr>
 							<td>${status.index+1 }</td>
 							<td>${vo.name }</td>
-							<td></td>
+							<td>${vo.count }</td>
 							<td>${vo.description }</td>
-							<td><a href=""><img src="${pageContext.request.contextPath}/assets/images/delete.jpg" ></a></td>
+							<td><a href="${pageContext.request.contextPath}/${blogVo.id}/admin/category/delete/${vo.no}"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg" ></a></td>
 						</tr>  
 					</c:forEach>			  
 				</table>

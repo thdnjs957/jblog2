@@ -34,11 +34,15 @@ public class UserService {
 		return false;
 	}
 	
+	public boolean existId(String id) {
+		UserVo userVo = userDao.get(id);
+		return userVo != null;
+	}
+	
+	
 	public UserVo getUser(UserVo userVo) {
 		
 		return userDao.get(userVo.getId(), userVo.getPassword());
 		
 	}
-
-	
 }

@@ -10,6 +10,7 @@
 <Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
 </head>
 <body>
+
 	<div id="container">
 		<c:import url="/WEB-INF/views/blog/includes/header.jsp"/>
 		<div id="wrapper">
@@ -36,7 +37,8 @@
 			      		</tr>
 			      		<tr>
 			      			<td>&nbsp;</td>
-			      			<td class="s"><input type="submit" value="포스트하기"></td>
+			      			<td class="s"><input type="submit" value="포스트하기" id ="insertPost"></td>
+			      		
 			      		</tr>
 			      	</table>
 				</form>

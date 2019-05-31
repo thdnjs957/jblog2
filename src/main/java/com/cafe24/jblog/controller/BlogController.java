@@ -24,13 +24,11 @@ import com.cafe24.security.AuthUser;
 
 
 @Controller
-@RequestMapping("/{id:(?!assets).*}" )
+@RequestMapping("/{id:(?!assets.*).*}" )
 public class BlogController {
 	
 	@Autowired
 	BlogService blogService;
-	
-	
 	
 	@RequestMapping({"","/{pathNo1}","/{pathNo1}/{pathNo2}"})
 	public String index(@PathVariable String id, 
@@ -73,7 +71,6 @@ public class BlogController {
 			return "redirect:/";
 		}
 		
-		
 		BlogVo blogVo = blogService.getById(id);
 		
 		model.addAttribute("blogVo",blogVo);
@@ -93,7 +90,6 @@ public class BlogController {
 			return "redirect:/";
 		}
 		
-		
 		String logo = blogService.restore(logoFile);
 
 		blogVo.setId(id);
@@ -103,7 +99,7 @@ public class BlogController {
 		
 		model.addAttribute("blogVo",blogVo);
 		
-		return "blog/blog-admin-basic";
+		return "redirect:/"+id;
 	}
 	
 	@Auth
@@ -126,6 +122,28 @@ public class BlogController {
 	}
 	
 	@Auth
+	@RequestMapping("/admin/category/delete/{no}")
+	public String adminDeleteCategory(@PathVariable String id,@PathVariable Long no,Model model,@AuthUser UserVo authUser) {
+		
+		BlogVo blogVo = blogService.getById(id);
+		
+		if(!id.equals(authUser.getId())) {
+			return "redirect:/";
+		}
+		
+		CategoryVo categoryVo = new CategoryVo();
+		categoryVo.setBlogId(id);
+		categoryVo.setNo(no);
+		
+		blogService.deleteCategory(categoryVo);
+				
+		model.addAttribute("blogVo",blogVo);
+		
+		return "redirect:/"+id+"/admin/category";
+	}
+	
+	
+	@Auth
 	@RequestMapping(value = "/admin/category", method=RequestMethod.POST)
 	public String adminCategory(@ModelAttribute CategoryVo categoryVo,@PathVariable String id,@AuthUser UserVo authUser) {
 		
@@ -133,10 +151,7 @@ public class BlogController {
 			return "redirect:/";
 		}
 		
-		
 		boolean result = blogService.insertCategory(categoryVo);
-		
-		
 		
 		return "redirect:/"+id+"/admin/category";
 	}
@@ -167,11 +182,12 @@ public class BlogController {
 		//no = category_no
 		postVo.setCategoryNo(no);
 		
-		blogService.insertPost(postVo);
+		boolean result = blogService.insertPost(postVo);
 		
 		BlogVo blogVo = blogService.getById(id);
 		model.addAttribute("blogVo",blogVo);
-		return "redirect:/"+id+"/admin/write";
+		
+		return "redirect:/"+id;
 	}
 	
 }

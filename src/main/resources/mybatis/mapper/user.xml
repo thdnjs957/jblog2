@@ -16,9 +16,9 @@
 		
 	</select>
 	
-	<select id="getByEmail" parameterType="string" resultType="uservo"> 
+	<select id="getById" parameterType="string" resultType="uservo"> 
 		<![CDATA[
-			select name,email,password,gender,join_date from users where email = #{email}
+			select id,name,password,reg_date from users where id = #{id}
 		]]>
 	</select>
 	

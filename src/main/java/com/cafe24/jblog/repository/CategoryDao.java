@@ -30,9 +30,12 @@ public class CategoryDao {
 
 	public boolean insertDefault(String id) {
 		int countCategory = sqlSession.insert("category.insertDefault",id);
-		return false;
+		return 1 == countCategory;
+	}
+
+	public boolean delete(CategoryVo categoryVo) {
+		int count = sqlSession.delete("category.delete",categoryVo);
+		return 1 == count;
 	}
 	
-	
-
 }
